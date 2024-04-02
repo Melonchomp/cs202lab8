@@ -4,6 +4,7 @@
 class Hangman{
     public:
 
+      // I think we'll need a multi map
     private:
 
 };
