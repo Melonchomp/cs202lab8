@@ -1,3 +1,9 @@
 //This will be the header file for our hangman game
+// yes
 
-//test push
+class Hangman{
+    public:
+
+    private:
+
+};
