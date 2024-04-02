@@ -1,3 +1,3 @@
 # cs202lab8
 
-# chris is stinky
+# lab8 is the header portion of the lab
