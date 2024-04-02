@@ -1,3 +1,3 @@
 # cs202lab8
 
-# chris is stinky
+# chris is awesome
