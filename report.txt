@@ -1,1 +1,10 @@
-the report for the hangman game
+Things to check for in rubric:
+   corrrectly reads from words file
+   correctly displays game
+   well formated, commented
+   game properly ends or starts a new round
+
+For test cases, it is a program in which you would need to
+play a set number of games to properly test all aspects of
+the game. Make sure that the character guessed is going in the 
+correct spot, for each of that character in the word.
