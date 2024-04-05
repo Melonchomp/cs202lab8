@@ -23,7 +23,7 @@ class Hangman{
       void startGame(); // prints out user interface
       void Menu(); // displays main menu and game options, restart, end, difficulty level
       void hints(); // will look through vector of characters available and the first one that it sees that is in the word will input into answer
-      string chooseWord( char ); // th
+      string chooseWord( char ); // this will choose a word from the word bank based on the category
 
       /* What if we had files for each category that contained a bunch of words. We could do something similar to
          to what we did at Pelli where we read from a file, and wrote to that same file. So basically as long as they keep 
