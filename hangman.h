@@ -45,7 +45,7 @@ class Hangman{
       int points; // depends on how many attempts they had left
       int hintsUsed;
       int perfectGames; // games won without getting any wrong
-      int hi;
+   
 };
 
 #endif
