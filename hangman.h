@@ -21,7 +21,7 @@ class Hangman{
       Hangman(); // defualt constructor
       void displayMan(); // prints out the man dying
       void startGame(); // prints out user interface
-      void Menu(); // displays main menu and game options, restart, end, difficulty level
+      void menu(); // displays main menu and game options, restart, end, difficulty level
       void hints(); // will look through vector of characters available and the first one that it sees that is in the word will input into answer
       string chooseWord( char ); // this will choose a word from the word bank based on the category
 
