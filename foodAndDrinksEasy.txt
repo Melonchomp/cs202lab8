@@ -1,0 +1,10 @@
+Pancake
+Sandwich
+Popcorn
+Doughnut
+Apple
+Pizza
+Burger
+Bacon
+Cookie
+Cheese

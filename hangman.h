@@ -19,11 +19,18 @@ using namespace std;
 class Hangman{
    public:
       Hangman(); // defualt constructor
-      void displayMan(); // prints out the man dying
+      void displayMan( int n ); // prints out the man dying
       void startGame(); // prints out user interface
       void menu(); // displays main menu and game options, restart, end, difficulty level
       void hints(); // will look through vector of characters available and the first one that it sees that is in the word will input into answer
-      string chooseWord( char ); // this will choose a word from the word bank based on the category
+      void fillBank( const string, const string );
+      string chooseCat();
+      string chooseWord( string c ); // this will choose a word from the word bank based on the category
+      string getDifficulty() const { return difficulty; }
+      void setDifficulty( string d );
+      int getAttempts() const { return attempts; }
+      string getWord() const { return word; }
+      void setWord( string w ){ word = w; }
 
       /* What if we had files for each category that contained a bunch of words. We could do something similar to
          to what we did at Pelli where we read from a file, and wrote to that same file. So basically as long as they keep 
@@ -45,6 +52,7 @@ class Hangman{
       int points; // depends on how many attempts they had left
       int hintsUsed;
       int perfectGames; // games won without getting any wrong
+      string difficulty; // used to keep track of the current difficulty of the game
    
 };
 

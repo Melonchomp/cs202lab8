@@ -1,0 +1,10 @@
+Tetris
+Scrabble
+Monopoly
+Pac-Man
+Chess
+Checkers
+Bingo
+Clue
+Uno
+Jenga
