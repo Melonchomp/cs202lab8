@@ -1,10 +1,10 @@
-Hippopotamus
-Peregrine Falcon
-Salamander
-Tasmanian Devil
-Orangutan
-Hammerhead Shark
-Tarantula
-Porcupine
-Ostrich
-Chameleon
+HIPPOPOTAMUS
+PEREGRINE FALCON
+SALAMANDER
+TASMANIAN DEVIL
+ORANGUTAN
+HAMMERHEAD SHARK
+TARANTULA
+PORCUPINE
+OSTRICH
+CHAMELEON

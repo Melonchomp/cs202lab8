@@ -1,10 +1,10 @@
-Pomegranate
-Asparagus
-Worcestershire
-Artichoke
-Papaya
-Horseradish
-Persimmon
-Zucchini
-Pine Nut
-Lychee
+POMEGRANATE
+ASPARAGUS
+WORCESTERSHIRE
+ARTICHOKE
+PAPAYA
+HORSERADISH
+PERSIMMON
+ZUCCHINI
+PINE NUT
+LYCHEE

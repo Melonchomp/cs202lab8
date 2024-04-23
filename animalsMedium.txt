@@ -1,10 +1,10 @@
-Chimpanzee
-Crocodile
-Kangaroo
-Seahorse
-Alligator
-Flamingo
-Platypus
-Rhinoceros
-Komodo Dragon
-Armadillo
+CHIMPANZEE
+CROCODILE
+KANGAROO
+SEAHORSE
+ALLIGATOR
+FLAMINGO
+PLATYPUS
+RHINOCEROS
+KOMODO DRAGON
+ARMADILLO
