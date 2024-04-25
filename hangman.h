@@ -20,9 +20,9 @@ class Hangman{
    public:
       Hangman(); // defualt constructor
       void displayMan( int n ); // prints out the man dying - C
-      void startGame(); // prints out user interface
-      void menu(); // displays main menu and game options, restart, end, difficulty level
-      void hints(); // will look through vector of characters available and the first one that it sees that is in the word will input into answer
+      void startGame(); // prints out user interface - A
+      void menu(); // displays main menu and game options, restart, end, difficulty level - K
+      void hints(); // will look through vector of characters available and the first one that it sees that is in the word will input into answer - K
       void fillBank( const string, const string ); // fills the map wordBank - C
       string chooseCat(); // will choose one of the categories - C
       string chooseWord( string c ); // this will choose a word from the word bank based on the category - C
