@@ -29,12 +29,13 @@ void Hangman::setDifficulty( string d ){
       fillBank( "gamesMedium.txt", "Games" );
 
    }
-   else{
+   else if(difficulty == "H"){
       attempts = 5;
       fillBank( "animalsHard.txt", "Animals" );
       fillBank( "foodAndDrinksHard.txt", "Food & Drinks" );
       fillBank( "gamesHard.txt", "Games" );
-
+   }else{
+      cout << "invalid input, retry\n";
    }
 }
 
@@ -127,13 +128,78 @@ void Hangman::displayMan( int n ){
 }
 
 void Hangman::startGame(){
+   //intro message
+   cout << "=======================\n" << "| Welcome to Hangman! |\n" << "=======================" << endl;
 
+   int option = 0, wordSize;
+   string difficulty, category, word, subWord1, subWord2;
+   size_t foundSpace, sim = 100;
+   //Menu call
+
+   while(option != 4){
+      option = menu();
+      
+
+      switch(option){
+         case 1: 
+            //first, the user has to choose a difficulty
+            cout << "Choose Difficulty (E | M | H):\n";
+            cin >> difficulty;
+            setDifficulty(difficulty);
+
+            //chooses word and category based on difficulty
+            category = chooseCat();
+            word = chooseWord(category);
+
+            cout << word << endl;
+
+            wordSize = word.size();
+            cout << wordSize << " " << endl;
+
+            foundSpace = word.find(' ');
+
+            sim = foundSpace;
+
+            cout << sim;
+
+            //these two for loops and the cout that prints a space is what 
+            for(int i = 0; i < sim; i++){ 
+               cout << "_";
+            }
+            cout << " ";
+            for(int i = sim+1; i < wordSize; i++){
+               cout << "_";
+            }
+            cout << endl;
+
+            break;
+         case 2: 
+            cout << "STATS\n";
+            break;
+         case 3: 
+            cout << "TUTORIAL\n";
+            break;
+         case 4: 
+            cout << "Thank You For Playing!" << endl << "Here are your session stats:\n";
+            printStats();
+            return;
+      }
+   }
 }
 
-void Hangman::menu(){
-
+//displays menu and gets the choice of the player
+int Hangman::menu(){
+   int choice;
+   cout << "1 | Play Game \n2 | Session Stats \n3 | Game Tutorial \n4 | Quit \nYour Pick: ";
+   cin >> choice;
+   
+   return choice; 
 }
 
 void Hangman::hints(){
+
+}
+
+void Hangman::printStats(){
 
 }

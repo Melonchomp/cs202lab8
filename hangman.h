@@ -1,6 +1,6 @@
 /*
  Ahmed Ghazi, Chris Ramos, Kevin Canas
- Lab 8
+ CS202 Final Lab: Hangman in C++
 
 */
 
@@ -21,13 +21,16 @@ class Hangman{
       Hangman(); // defualt constructor
       void displayMan( int n ); // prints out the man dying - C
       void startGame(); // prints out user interface - A
-      void menu(); // displays main menu and game options, restart, end, difficulty level - K
+      int menu(); // displays main menu and game options, restart, end, difficulty level - A
       void hints(); // will look through vector of characters available and the first one that it sees that is in the word will input into answer - K
+      void printStats(); // will display statistics of the games played in 1 session
+      //kevin, write all the setter and getters for the stats portion of this code
+
       void fillBank( const string, const string ); // fills the map wordBank - C
       string chooseCat(); // will choose one of the categories - C
       string chooseWord( string c ); // this will choose a word from the word bank based on the category - C
       string getDifficulty() const { return difficulty; } // - C
-      void setDifficulty( string d ); // Depending on diff entered will - C
+      void setDifficulty( string d ); // Depending on difficulty entered - C
       int getAttempts() const { return attempts; } // - C
       string getWord() const { return word; } // - C
       void setWord( string w ){ word = w; } //- C

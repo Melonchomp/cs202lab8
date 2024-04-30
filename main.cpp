@@ -6,5 +6,7 @@
 using namespace std;
 
 int main(){
-
+    Hangman hang;
+    
+    hang.startGame();
 }
