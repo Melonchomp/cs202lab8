@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <set> 
 
 using namespace std;
 
@@ -131,12 +132,15 @@ void Hangman::startGame(){
    //intro message
    cout << "=======================\n" << "| Welcome to Hangman! |\n" << "=======================" << endl;
 
-   int option = 0, wordSize;
+   string guess; 
+   bool gameOver;
+   int option = 0;
    string difficulty, category, wordGuess;
-   size_t foundSpace;
    //Menu call
 
    while(option != 4){
+
+      gameOver = false;
       option = menu();
       
       switch(option){
@@ -155,24 +159,10 @@ void Hangman::startGame(){
 
             cout << word.size() << " " << endl;
 
-            foundSpace = word.find(' ');
 
             
 
                //these two for loops and the cout that prints a space is what 
-            //    for(int i = 0; i < foundSpace; i++){ 
-            //       cout << "_";
-            //       wordGuess.push_back('_');
-            //    }
-            //    wordGuess.push_back(' ');
-            //    for(int i = foundSpace+1; i < word.size(); i++){
-            //       wordGuess.push_back('_');
-            //    }
-            // }else{
-            //    for( int i = 0; i < word.size(); i++){
-            //       wordGuess.push_back('_');
-            //    }
-            // }
 
             for(int i = 0; i < word.size(); i++){
                if(word[i] != ' '){
@@ -182,6 +172,13 @@ void Hangman::startGame(){
                }
             }
 
+            while(gameOver == false){
+
+               cout << "Guess a letter" << endl;
+               cin >> guess;
+
+
+            }
 
             cout << endl << word << endl << wordGuess << endl;
 
@@ -216,5 +213,18 @@ void Hangman::hints(){
 }
 
 void Hangman::printStats(){
+
+}
+
+void Hangman::checkWord(string &guessedWord, char guess){
+
+
+
+   for(int i = 0; i < word.size(); i++ ){
+      if(word[i] == guess){
+         guessedWord[i] = word[i];
+          
+      }
+   }
 
 }
