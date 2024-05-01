@@ -94,35 +94,36 @@ void Hangman::displayMan( int n ){
 
    if( difficulty == "E" ){
       vector<std::string> HANGMANPICS = {
-         "  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n=========",
          "  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========="
+         "  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========",
+
       };
       cout << HANGMANPICS[n] << endl;
    }
    else if( difficulty == "M" ){
       vector<std::string> HANGMANPICS = {
-         "  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n=========",
          "  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========="
+         "  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
+          "  +---+\n  |   |\n      |\n      |\n      |\n      |\n========="
       };
       cout << HANGMANPICS[n] << endl;
 
    }
    else{
       vector<std::string> HANGMANPICS = {
-         "  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n=========",
          "  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========",
-         "  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========="
+         "  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
+         "  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========",
       };
       cout << HANGMANPICS[n] << endl;
    }
@@ -160,10 +161,7 @@ void Hangman::startGame(){
             cout << word.size() << " " << endl;
 
 
-            
-
-               //these two for loops and the cout that prints a space is what 
-
+            //this for loop makes the string that holds the guesses the same size as the actually word string, including spaces
             for(int i = 0; i < word.size(); i++){
                if(word[i] != ' '){
                   wordGuess.push_back('_');
@@ -173,11 +171,31 @@ void Hangman::startGame(){
             }
 
             while(gameOver == false){
+               //ends game if too many wrong attempts have been made
+               if(attempts == 0){
+                  gamesLost++;
+                  cout << "You're out of attempts. Better luck next time!" << endl;
+                  gameOver = true;
+                  break;
+               } 
 
-               cout << "Guess a letter" << endl;
+               //displays the man every time the user guesses the letter, regardless of the guess being right or wrong
+               if(gameOver != true) displayMan(attempts-1);
+
+               //user input to get the guess
+               cout << "Guess a letter: ";
                cin >> guess;
 
+               attempts--;
 
+               //function call to checkWord to see if the guess was correct
+
+               //this checks for if the player has won the hangman game
+               if(wordGuess == word){
+                  gamesWon++;
+                  cout << "\nCongratulations, you won with " << attempts << " remaining. Give yourself a pat on the back!\n";
+                  gameOver == true;
+               }
             }
 
             cout << endl << word << endl << wordGuess << endl;
