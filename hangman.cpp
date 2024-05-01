@@ -132,14 +132,13 @@ void Hangman::startGame(){
    cout << "=======================\n" << "| Welcome to Hangman! |\n" << "=======================" << endl;
 
    int option = 0, wordSize;
-   string difficulty, category, word, subWord1, subWord2;
-   size_t foundSpace, sim = 100;
+   string difficulty, category, wordGuess;
+   size_t foundSpace;
    //Menu call
 
    while(option != 4){
       option = menu();
       
-
       switch(option){
          case 1: 
             //first, the user has to choose a difficulty
@@ -149,28 +148,42 @@ void Hangman::startGame(){
 
             //chooses word and category based on difficulty
             category = chooseCat();
+            
             word = chooseWord(category);
 
             cout << word << endl;
 
-            wordSize = word.size();
-            cout << wordSize << " " << endl;
+            cout << word.size() << " " << endl;
 
             foundSpace = word.find(' ');
 
-            sim = foundSpace;
+            
 
-            cout << sim;
+               //these two for loops and the cout that prints a space is what 
+            //    for(int i = 0; i < foundSpace; i++){ 
+            //       cout << "_";
+            //       wordGuess.push_back('_');
+            //    }
+            //    wordGuess.push_back(' ');
+            //    for(int i = foundSpace+1; i < word.size(); i++){
+            //       wordGuess.push_back('_');
+            //    }
+            // }else{
+            //    for( int i = 0; i < word.size(); i++){
+            //       wordGuess.push_back('_');
+            //    }
+            // }
 
-            //these two for loops and the cout that prints a space is what 
-            for(int i = 0; i < sim; i++){ 
-               cout << "_";
+            for(int i = 0; i < word.size(); i++){
+               if(word[i] != ' '){
+                  wordGuess.push_back('_');
+               }else{
+                  wordGuess.push_back(' ');
+               }
             }
-            cout << " ";
-            for(int i = sim+1; i < wordSize; i++){
-               cout << "_";
-            }
-            cout << endl;
+
+
+            cout << endl << word << endl << wordGuess << endl;
 
             break;
          case 2: 
@@ -184,6 +197,8 @@ void Hangman::startGame(){
             printStats();
             return;
       }
+
+      wordGuess.clear();
    }
 }
 

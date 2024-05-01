@@ -34,6 +34,7 @@ class Hangman{
       int getAttempts() const { return attempts; } // - C
       string getWord() const { return word; } // - C
       void setWord( string w ){ word = w; } //- C
+      
       /* What if we had files for each category that contained a bunch of words. We could do something similar to
          to what we did at Pelli where we read from a file, and wrote to that same file. So basically as long as they keep 
          playing we update the files so that the same word isnt used twice and when they choose to end the game, we reset
