@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <set> 
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -15,6 +17,9 @@ Hangman::Hangman(){
 
 /* Apart from setting the difficulty this function also sets the attempts and fills the word bank based on the difficulty chosen */
 void Hangman::setDifficulty( string d ){
+
+   transform( d.begin(), d.end(), d.begin(), ::toupper );
+
    difficulty = d;
    if( difficulty == "E" ){
       attempts = 7;
