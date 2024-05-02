@@ -22,24 +22,21 @@ void Hangman::setDifficulty( string d ){
 
    difficulty = d;
    if( difficulty == "E" ){
-      attempts = 7;
-      hintsUsed = 0;
+      attempts = 6;
       fillBank( "animalsEasy.txt", "Animals" );
       fillBank( "foodAndDrinksEasy.txt", "Food & Drinks" );
       fillBank( "gamesEasy.txt", "Games" );
 
    }
    else if( difficulty == "M" ){
-      attempts = 6;
-      hintsUsed = 0;
+      attempts = 5;
       fillBank( "animalsMedium.txt", "Animals" );
       fillBank( "foodAndDrinksMedium.txt", "Food & Drinks" );
       fillBank( "gamesMedium.txt", "Games" );
 
    }
    else if(difficulty == "H"){
-      attempts = 5;
-      hintsUsed = 0;
+      attempts = 4;
       fillBank( "animalsHard.txt", "Animals" );
       fillBank( "foodAndDrinksHard.txt", "Food & Drinks" );
       fillBank( "gamesHard.txt", "Games" );
@@ -141,9 +138,9 @@ void Hangman::startGame(){
    //intro message
    cout << "=======================\n" << "| Welcome to Hangman! |\n" << "=======================" << endl;
 
-   string guess; 
+   string guess;
    bool gameOver;
-   int option = 0;
+   int numHints = 1, option;
    string difficulty, category, wordGuess;
    //Menu call
 
@@ -155,7 +152,7 @@ void Hangman::startGame(){
       switch(option){
          case 1: 
             //first, the user has to choose a difficulty
-            cout << "Choose Difficulty (E | M | H):\n";
+            cout << "Choose Difficulty (E | M | H): ";
             cin >> difficulty;
             setDifficulty(difficulty);
 
@@ -163,11 +160,6 @@ void Hangman::startGame(){
             category = chooseCat();
             
             word = chooseWord(category);
-
-            cout << word << endl;
-
-            cout << word.size() << " " << endl;
-
 
             //this for loop makes the string that holds the guesses the same size as the actually word string, including spaces
             for(int i = 0; i < word.size(); i++){
@@ -178,33 +170,51 @@ void Hangman::startGame(){
                }
             }
 
+
             while(gameOver == false){
                //ends game if too many wrong attempts have been made
+
+               //prints out the category of the word
+               cout << "Category: " << category << endl;
+
+               //outputs the current guess string 
+               cout << wordGuess << endl << endl;
+
+               //displays the man every time the user guesses the letter, regardless of the guess being right or wrong
+               if(gameOver != true) displayMan(attempts);
+
                if(attempts == 0){
                   gamesLost++;
-                  cout << "You're out of attempts. Better luck next time!" << endl;
+
+                  cout << "You're out of attempts. The word was " << word << ". Better luck next time!" << endl;
                   gameOver = true;
                   break;
                } 
 
-               //displays the man every time the user guesses the letter, regardless of the guess being right or wrong
-               if(gameOver != true) displayMan(attempts-1);
-
                //user input to get the guess
-               cout << "(type 'hint' for a hint)" << endl << "Guess a letter: ";
+               if(numHints == 1){
+                  cout << "(type 'hint' for a hint)" << endl << "Guess a letter: ";
+               }
+               else{
+                  cout << "Guess a letter: ";
+               }
                cin >> guess;
                if(guess == "hint"){
-                  hints(wordGuess);
+                  hints(wordGuess, numHints);
                   continue;
 
                }
+
+               //makes the guess and uppercase word
                transform( guess.begin(), guess.end(), guess.begin(), ::toupper );
+               
+               //error checking for multiple letters input
                if (guess.size()!= 1){
                   cout << "Too many characters!" << endl;
                   continue; 
-
                }
-            
+               
+               //checks if guess[0] is a letter
                if (!isalpha(guess[0])){
                   cout << "Invalid Input!" << endl;
                   continue;
@@ -213,25 +223,31 @@ void Hangman::startGame(){
 
                //function call to checkWord to see if the guess was correct
                checkWord(wordGuess, guess[0], usedLetters);
-               cout << wordGuess << endl;
                //this checks for if the player has won the hangman game
                if(wordGuess == word){
                   gamesWon++;
-                  cout << "\nCongratulations, you won with " << attempts << " remaining. Give yourself a pat on the back!\n";
+                  points += attempts;
+                  cout << "\nCongratulations, guessed the word " << word << " with " << attempts << " remaining. Give yourself a pat on the back!\n";
                   gameOver == true;
+                  numHints = 1;
                   break;
                }
             }
 
             break;
          case 2: 
-            cout << "STATS\n";
+            //this case prints the current session stats
+            cout << endl;
+            printStats();
+            cout << endl;
             break;
          case 3: 
-            cout << "TUTORIAL\n";
+            cout << "\nThe object of hangman is to guess the secret word before the stick figure is hung. "
+            " Players take turns selecting letters to narrow the word down. Players can take turns or work together. "
+            " Gameplay continues until the players guess the word or they run out of guesses and the stick figure is hung.\n\n"; 
             break;
          case 4: 
-            cout << "Thank You For Playing!" << endl << "Here are your session stats:\n";
+            cout << "\nThank You For Playing!" << endl << "Here are your session stats:\n\n";
             printStats();
             return;
       }
@@ -242,18 +258,21 @@ void Hangman::startGame(){
 
 //displays menu and gets the choice of the player
 int Hangman::menu(){
-   int choice;
-   cout << "1 | Play Game \n2 | Session Stats \n3 | Game Tutorial \n4 | Quit \nYour Pick: ";
-   cin >> choice;
+   string choice;
    
-   return choice; 
+   do{
+      cout << "1 | Play Game \n2 | Session Stats \n3 | Game Tutorial \n4 | Quit \nYour Pick: ";
+      cin >> choice;
+   }
+   while( choice != "1" && choice != "2" && choice != "3" && choice != "4" && choice.size() != 1 );
+
+   return stoi(choice);
 }
 
-void Hangman::hints(string &hiddenWord){
+void Hangman::hints(string &hiddenWord, int &numHints){
 
-   if(hintsUsed > 0){
+   if(numHints == 0){
       cout << "No hints left!" << endl;
-      cout << hiddenWord << endl;
       return;
    }
    size_t position = hiddenWord.find('_');
@@ -261,8 +280,8 @@ void Hangman::hints(string &hiddenWord){
    if (position != string::npos) {
       hiddenWord[position] = word[position];
       attempts--;
+      numHints--;
       hintsUsed++;
-      cout << hiddenWord << endl;
       return;
    } 
  
@@ -271,8 +290,12 @@ void Hangman::hints(string &hiddenWord){
 
 void Hangman::printStats(){
 
-
-
+   cout << "Number of games won: " << gamesWon << endl;
+   cout << "Number of games lost: " << gamesLost << endl;
+   cout << "Number of hints used: " << hintsUsed << endl;
+   cout << "Total points(remaining attempts throughout the session): " << points << endl;
+   
+   return;
 }
 
 void Hangman::checkWord(string &guessedWord, char guess, set<char> &usedChars){
@@ -281,14 +304,13 @@ void Hangman::checkWord(string &guessedWord, char guess, set<char> &usedChars){
 
    if(usedChars.find(guess)== usedChars.end()){ //this stores the users guess if it hasn't been guessed before
       usedChars.insert(guess);
-
    }
    else {
       cout << "You have already guessed " << guess << "!" << endl; // error check for already guessed letters
       return;
 
    }
-   for(int i = 0; i < word.size(); i++ ){
+   for(int i = 0; i < word.size(); i++ ){ //reveals the guessed letter if it is in the word and decreases their attempts if it isnt
       if(word[i] == guess){
          guessedWord[i] = word[i];
          letterInserted = true; 

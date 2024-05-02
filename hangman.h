@@ -23,8 +23,8 @@ class Hangman{
       void displayMan( int n ); // prints out the man dying - C
       void startGame(); // prints out user interface - A
       int menu(); // displays main menu and game options, restart, end, difficulty level - A
-      void hints(string &hiddenWord); // will look through array of characters available and the first one that it sees that is in the word will input into answer - K
-      void printStats(); // will display statistics of the games played in 1 session
+      void hints(string &hiddenWord, int &numHints); // will look through array of characters available and the first one that it sees that is in the word will input into answer - K
+      void printStats(); // will display statistics of the games played in 1 session - A
 
       //kevin, write all the setter and getters for the stats portion of this code
       
@@ -56,7 +56,7 @@ class Hangman{
       int gamesWon; 
       int gamesLost;
       int points; // depends on how many attempts they had left
-      int hintsUsed;
+      int hintsUsed; // the number of hints used in the session
       int perfectGames; // games won without getting any wrong
       string difficulty; // used to keep track of the current difficulty of the game
    
