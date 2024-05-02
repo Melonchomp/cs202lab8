@@ -23,6 +23,7 @@ void Hangman::setDifficulty( string d ){
    difficulty = d;
    if( difficulty == "E" ){
       attempts = 7;
+      hintsUsed = 0;
       fillBank( "animalsEasy.txt", "Animals" );
       fillBank( "foodAndDrinksEasy.txt", "Food & Drinks" );
       fillBank( "gamesEasy.txt", "Games" );
@@ -30,6 +31,7 @@ void Hangman::setDifficulty( string d ){
    }
    else if( difficulty == "M" ){
       attempts = 6;
+      hintsUsed = 0;
       fillBank( "animalsMedium.txt", "Animals" );
       fillBank( "foodAndDrinksMedium.txt", "Food & Drinks" );
       fillBank( "gamesMedium.txt", "Games" );
@@ -37,6 +39,7 @@ void Hangman::setDifficulty( string d ){
    }
    else if(difficulty == "H"){
       attempts = 5;
+      hintsUsed = 0;
       fillBank( "animalsHard.txt", "Animals" );
       fillBank( "foodAndDrinksHard.txt", "Food & Drinks" );
       fillBank( "gamesHard.txt", "Games" );
@@ -148,7 +151,7 @@ void Hangman::startGame(){
 
       gameOver = false;
       option = menu();
-      
+      set< char > usedLetters;
       switch(option){
          case 1: 
             //first, the user has to choose a difficulty
@@ -188,22 +191,37 @@ void Hangman::startGame(){
                if(gameOver != true) displayMan(attempts-1);
 
                //user input to get the guess
-               cout << "Guess a letter: ";
+               cout << "(type 'hint' for a hint)" << endl << "Guess a letter: ";
                cin >> guess;
+               if(guess == "hint"){
+                  hints(wordGuess);
+                  continue;
 
-               attempts--;
+               }
+               transform( guess.begin(), guess.end(), guess.begin(), ::toupper );
+               if (guess.size()!= 1){
+                  cout << "Too many characters!" << endl;
+                  continue; 
+
+               }
+            
+               if (!isalpha(guess[0])){
+                  cout << "Invalid Input!" << endl;
+                  continue;
+               }
+
 
                //function call to checkWord to see if the guess was correct
-
+               checkWord(wordGuess, guess[0], usedLetters);
+               cout << wordGuess << endl;
                //this checks for if the player has won the hangman game
                if(wordGuess == word){
                   gamesWon++;
                   cout << "\nCongratulations, you won with " << attempts << " remaining. Give yourself a pat on the back!\n";
                   gameOver == true;
+                  break;
                }
             }
-
-            cout << endl << word << endl << wordGuess << endl;
 
             break;
          case 2: 
@@ -231,23 +249,54 @@ int Hangman::menu(){
    return choice; 
 }
 
-void Hangman::hints(){
+void Hangman::hints(string &hiddenWord){
+
+   if(hintsUsed > 0){
+      cout << "No hints left!" << endl;
+      cout << hiddenWord << endl;
+      return;
+   }
+   size_t position = hiddenWord.find('_');
+   
+   if (position != string::npos) {
+      hiddenWord[position] = word[position];
+      attempts--;
+      hintsUsed++;
+      cout << hiddenWord << endl;
+      return;
+   } 
+ 
 
 }
 
 void Hangman::printStats(){
 
+
+
 }
 
-void Hangman::checkWord(string &guessedWord, char guess){
+void Hangman::checkWord(string &guessedWord, char guess, set<char> &usedChars){
 
+   bool letterInserted = false;
 
+   if(usedChars.find(guess)== usedChars.end()){ //this stores the users guess if it hasn't been guessed before
+      usedChars.insert(guess);
 
+   }
+   else {
+      cout << "You have already guessed " << guess << "!" << endl; // error check for already guessed letters
+      return;
+
+   }
    for(int i = 0; i < word.size(); i++ ){
       if(word[i] == guess){
          guessedWord[i] = word[i];
-          
+         letterInserted = true; 
       }
    }
+   if (letterInserted == false){
+      attempts--;
+   }
 
+   return; 
 }

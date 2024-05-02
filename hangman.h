@@ -13,6 +13,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <set>
 
 using namespace std;
 
@@ -22,12 +23,12 @@ class Hangman{
       void displayMan( int n ); // prints out the man dying - C
       void startGame(); // prints out user interface - A
       int menu(); // displays main menu and game options, restart, end, difficulty level - A
-      void hints(); // will look through array of characters available and the first one that it sees that is in the word will input into answer - K
+      void hints(string &hiddenWord); // will look through array of characters available and the first one that it sees that is in the word will input into answer - K
       void printStats(); // will display statistics of the games played in 1 session
 
       //kevin, write all the setter and getters for the stats portion of this code
       
-      void checkWord(string &guessedWord, char guess); // this will do the guess checking, edit the guessword string, and store any failed guesses in an array - K
+      void checkWord(string &guessedWord, char guess, set<char> &usedChars); // this will do the guess checking, edit the guessword string, and store any failed guesses in an array - K
       void fillBank( const string, const string ); // fills the map wordBank - C
       string chooseCat(); // will choose one of the categories - C
       string chooseWord( string c ); // this will choose a word from the word bank based on the category - C
