@@ -13,6 +13,7 @@ Hangman::Hangman(){
     attempts = gamesWon  = gamesLost = points = hintsUsed = perfectGames = 0;
     word = category = "";
     difficulty = ' ';
+    hasUnusedLetters = false;
 }
 
 /* Apart from setting the difficulty this function also sets the attempts and fills the word bank based on the difficulty chosen */
@@ -149,6 +150,8 @@ void Hangman::startGame(){
       gameOver = false;
       option = menu();
       set< char > usedLetters;
+      set< char >::iterator sit;
+
       switch(option){
          case 1: 
             //first, the user has to choose a difficulty
@@ -181,13 +184,29 @@ void Hangman::startGame(){
                cout << wordGuess << endl << endl;
 
                //displays the man every time the user guesses the letter, regardless of the guess being right or wrong
-               if(gameOver != true) displayMan(attempts);
+               if(gameOver != true){
 
+                  if( hasUnusedLetters ){
+                     cout << "Used Letters: ";
+                     for( sit = usedLetters.begin(); sit != usedLetters.end(); sit++ ){
+                        if( word.find( *sit ) == string::npos ){
+                           cout << *sit;
+                           if( next(sit) != usedLetters.end() ){
+                           cout << ", ";
+                           } 
+                        }
+                     }
+                     cout << endl;
+                  }
+                  
+                  displayMan(attempts);
+               }
                if(attempts == 0){
                   gamesLost++;
 
                   cout << "You're out of attempts. The word was " << word << ". Better luck next time!" << endl;
                   gameOver = true;
+                  numHints = 1;
                   break;
                } 
 
@@ -199,15 +218,16 @@ void Hangman::startGame(){
                   cout << "Guess a letter: ";
                }
                cin >> guess;
-               if(guess == "hint"){
-                  hints(wordGuess, numHints);
+
+               //makes the guess and uppercase word
+               transform( guess.begin(), guess.end(), guess.begin(), ::toupper ); // words to guess are in all caps
+
+               if(guess == "HINT"){
+                  hints(wordGuess, numHints, usedLetters);
                   continue;
 
                }
 
-               //makes the guess and uppercase word
-               transform( guess.begin(), guess.end(), guess.begin(), ::toupper );
-               
                //error checking for multiple letters input
                if (guess.size()!= 1){
                   cout << "Too many characters!" << endl;
@@ -227,7 +247,7 @@ void Hangman::startGame(){
                if(wordGuess == word){
                   gamesWon++;
                   points += attempts;
-                  cout << "\nCongratulations, guessed the word " << word << " with " << attempts << " remaining. Give yourself a pat on the back!\n";
+                  cout << "\nCongratulations, you guessed the word " << word << " with " << attempts << " remaining. Give yourself a pat on the back!\n\n";
                   gameOver == true;
                   numHints = 1;
                   break;
@@ -269,7 +289,7 @@ int Hangman::menu(){
    return stoi(choice);
 }
 
-void Hangman::hints(string &hiddenWord, int &numHints){
+void Hangman::hints(string &hiddenWord, int &numHints, set<char> &usedChars){
 
    if(numHints == 0){
       cout << "No hints left!" << endl;
@@ -277,8 +297,15 @@ void Hangman::hints(string &hiddenWord, int &numHints){
    }
    size_t position = hiddenWord.find('_');
    
+
    if (position != string::npos) {
       hiddenWord[position] = word[position];
+      for( int i = position + 1; i < int(word.size()); i++ ){
+         if( word[i] == word[position] ){
+            hiddenWord[i] = word[position];
+         }
+      }
+      usedChars.insert(word[position]);
       attempts--;
       numHints--;
       hintsUsed++;
@@ -317,6 +344,7 @@ void Hangman::checkWord(string &guessedWord, char guess, set<char> &usedChars){
       }
    }
    if (letterInserted == false){
+      hasUnusedLetters = true;
       attempts--;
    }
 

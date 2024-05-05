@@ -19,32 +19,17 @@ using namespace std;
 
 class Hangman{
    public:
-      Hangman(); // defualt constructor
-      void displayMan( int n ); // prints out the man dying - C
-      void startGame(); // prints out user interface - A
+      Hangman(); // defualt constructor - A
+      void displayMan( int n ); // prints out the man dying
+      void startGame(); // prints out user interface - A, K, C
       int menu(); // displays main menu and game options, restart, end, difficulty level - A
-      void hints(string &hiddenWord, int &numHints); // will look through array of characters available and the first one that it sees that is in the word will input into answer - K
+      void hints(string &hiddenWord, int &numHints, set<char> &usedChars); // will look through array of characters available and the first one that it sees that is in the word will input into answer - K, C
       void printStats(); // will display statistics of the games played in 1 session - A
-
-      //kevin, write all the setter and getters for the stats portion of this code
-      
       void checkWord(string &guessedWord, char guess, set<char> &usedChars); // this will do the guess checking, edit the guessword string, and store any failed guesses in an array - K
       void fillBank( const string, const string ); // fills the map wordBank - C
       string chooseCat(); // will choose one of the categories - C
       string chooseWord( string c ); // this will choose a word from the word bank based on the category - C
-      string getDifficulty() const { return difficulty; } // - C
-      void setDifficulty( string d ); // Depending on difficulty entered - C
-      int getAttempts() const { return attempts; } // - C
-      string getWord() const { return word; } // - C
-      void setWord( string w ){ word = w; } //- C
-      
-      /* What if we had files for each category that contained a bunch of words. We could do something similar to
-         to what we did at Pelli where we read from a file, and wrote to that same file. So basically as long as they keep 
-         playing we update the files so that the same word isnt used twice and when they choose to end the game, we reset
-         the files. We can either go down the list or randomize it.
-      */
-
-      
+      void setDifficulty( string d ); // Depending on difficulty entered will fill word bank with corresponding words and set the corresponding attempts - C
 
    private:
 
@@ -59,7 +44,7 @@ class Hangman{
       int hintsUsed; // the number of hints used in the session
       int perfectGames; // games won without getting any wrong
       string difficulty; // used to keep track of the current difficulty of the game
-   
+      bool hasUnusedLetters;
 };
 
 #endif
