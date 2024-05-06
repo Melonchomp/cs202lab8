@@ -1,4 +1,5 @@
 #CS 202 FINAL LAB
+
 Authors: Ahmed Ghazi, Chris Ramos, Kevin Canas
 Condensed instructions/Quick Start:
 To use this program, you need to type these commands into the command line in this order: "make clean", then "make", and then "./hangman".
