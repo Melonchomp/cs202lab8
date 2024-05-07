@@ -156,7 +156,7 @@ void Hangman::displayMan( int n ){
 /*
  Members:
    Ahmed - 
-   Kevin - 
+   Kevin - implemented check word and hints function and helped with the logic and writing of the gameplay loop
    Chris - Implemented a boolean check to help with printing out the set of used characters. Helped with erros and logic of some code.
  Description: This is the main play function of our game. 
 */
