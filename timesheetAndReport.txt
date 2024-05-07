@@ -24,3 +24,7 @@ Totals: 	10:15	    9:45	      8:30
 Each team member demonstrated exceptional dedication, contributing [Chris: 10 hours and 15 minutes], [Ahmed: 9 hours and 45 minutes], and [Kevin: 8 hours and 30 minutes] towards the project, showcasing our commitment to its success. We came up with unique implementations to meet the project requirements and delivered a polished final product that demonstrates our proficiency in effective use of data structures.
 
 
+Chris - I implemented the skeleton of the game, as well as the makefile to execute the game. Apart from the skeleton I mainly worked on the fillBank function which
+fills the unordered_map that we use of words from the text files depending on what difficulty the user entered. The difficulty is set with setDifficulty where
+I fill the map and set the corresponding number of attempts allowed. I also made helper functions called chooseCat and chooseWord.
+chooseCat will choose a category from the map, and after choosing the category chooseWord will choose a word within it. 

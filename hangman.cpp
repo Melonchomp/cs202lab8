@@ -8,6 +8,10 @@
 
 using namespace std;
 
+/*
+ Member: Ahmed
+ Description: Default constructor of the Hangman class
+*/
 Hangman::Hangman(){
     //initializes all private variables to 0 or empty
     attempts = gamesWon  = gamesLost = points = hintsUsed = perfectGames = 0;
@@ -16,10 +20,13 @@ Hangman::Hangman(){
     hasUnusedLetters = false;
 }
 
-/* Apart from setting the difficulty this function also sets the attempts and fills the word bank based on the difficulty chosen */
+/* 
+ Member: Chris
+ Description: Apart from setting the difficulty this function also sets the attempts and fills the word bank based on the difficulty chosen
+*/
 void Hangman::setDifficulty( string d ){
 
-   transform( d.begin(), d.end(), d.begin(), ::toupper );
+   transform( d.begin(), d.end(), d.begin(), ::toupper ); // we first convert the difficulty to upper case so no matter what case entered it will work
 
    difficulty = d;
    if( difficulty == "E" ){
@@ -46,7 +53,10 @@ void Hangman::setDifficulty( string d ){
    }
 }
 
-/* This function will open the file and insert each word in that file into the unordered map under the correct key */
+/* 
+ Member: Chris
+ Description: This function will open the file and insert each word in that file into the unordered map under the correct key
+*/
 void Hangman::fillBank( const string filename, const string category ){
 
    fstream in;
@@ -66,7 +76,10 @@ void Hangman::fillBank( const string filename, const string category ){
 
 }
 
-/* This function will randomly choose one of the 3 categories */
+/* 
+ Member: Chris
+ Description: This function will randomly choose one of the 3 categories and return which category was chosen
+*/
 string Hangman::chooseCat(){
    vector<string> tmpCat { "Animals", "Food & Drinks", "Games" };
    int i;
@@ -77,7 +90,11 @@ string Hangman::chooseCat(){
    return tmpCat[i];
 }
 
-/* Using the category chosen in chooseCat(), this function will randomly choose a word from that category and pop it from the vector so it isnt chosen again */
+/* 
+ Member: Chris
+ Description: Using the category chosen in chooseCat(), this function will randomly choose a word from that category and pop it from the vector so it isnt
+              chosen again. It will then return the word chosen to be used later in the game
+*/
 string Hangman::chooseWord( string c ){
 
    vector<string>& words = wordBank[c]; //temporary vector to help with returning the random word
@@ -92,6 +109,7 @@ string Hangman::chooseWord( string c ){
 }
 
 /*
+ Member: Chris
  displayMan - Will print out the current art of the man given the number of attempts
    Parameters: the current number of attempts
    Returns: Nothing
@@ -135,6 +153,13 @@ void Hangman::displayMan( int n ){
    }
 }
 
+/*
+ Members:
+   Ahmed - 
+   Kevin - 
+   Chris - Implemented a boolean check to help with printing out the set of used characters. Helped with erros and logic of some code.
+ Description: This is the main play function of our game. 
+*/
 void Hangman::startGame(){
    //intro message
    cout << "=======================\n" << "| Welcome to Hangman! |\n" << "=======================" << endl;
@@ -276,7 +301,10 @@ void Hangman::startGame(){
    }
 }
 
-//displays menu and gets the choice of the player
+/*
+ Members: Ahmed
+ Description: displays menu and gets the choice of the player
+*/
 int Hangman::menu(){
    string choice;
    
@@ -289,6 +317,12 @@ int Hangman::menu(){
    return stoi(choice);
 }
 
+/*
+ Members:
+   Kevin - 
+   Chris - Implemnted the check for multiple occurences of a letter if it was given by hint, and added it to the used characters set
+ Description: If the user asks for a hint, this function will find the first '_' and replace it with the letter and also take away an attempt from the user.
+*/
 void Hangman::hints(string &hiddenWord, int &numHints, set<char> &usedChars){
 
    if(numHints == 0){
@@ -315,6 +349,10 @@ void Hangman::hints(string &hiddenWord, int &numHints, set<char> &usedChars){
 
 }
 
+/*
+ Member: Ahmed
+ Description: 
+*/
 void Hangman::printStats(){
 
    cout << "Number of games won: " << gamesWon << endl;
@@ -325,6 +363,10 @@ void Hangman::printStats(){
    return;
 }
 
+/*
+ Member: Kevin
+ Description: 
+*/
 void Hangman::checkWord(string &guessedWord, char guess, set<char> &usedChars){
 
    bool letterInserted = false;
