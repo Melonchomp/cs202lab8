@@ -1,0 +1,26 @@
+What went well :
+
+Throughout the project, our team maintained clear and efficient communication, allowing us to coordinate effectively and overcome challenges together. Despite encountering some minor setbacks, such as integrating third-party libraries and clarifying initial requirements, we managed to complete the project within the given timeframe. We implemented extra features such as different difficulty levels (Easy, Medium, Hard) and the option for hints in order to meet the hour goals as this is a fairly simplistic project. 
+
+What Went Less Well:
+
+We faced some difficulties with integrating third-party libraries, which resulted in minor delays during the development process. Initially, there were discrepancies in understanding certain requirements, leading to some revisions in the early stages of development. There was some slight back and forth on which data structures would be the most efficient but after comparing the pros and cons of different structures we were able to come to an agreement.
+
+ What We Have Learned:
+
+We improved our skills in C++ particularly in working with sets, vectors, strings, and other data types. We gained valuable experience in project management, including task prioritization and resource allocation, which contributed to the timely completion of the project. Our teamwork and communication skills significantly improved as we collaborated on various aspects of the project and gave us a glimpse into what collaborating on a large project may look like. 
+
+Why Our Group Should Get Full Discretionary Points:
+
+date	Chris 	Ahmed 	Kevin 
+17-Apr	4:30-7:00	  4:30-7:00	  4:30-7:00
+18-Apr	5:00-5:30		
+23-Apr	11:20-12:35	11:20-12:35	
+25-Apr	4:30-7:00	  4:30-7:00	  4:30-7:00
+21-Apr	5:00-6:00	  5:00-6:00	  5:00-6:00
+2-May	  4:00-6:30	  4:00-6:30	  4:00-6:30
+Totals: 	10:15	    9:45	      8:30
+
+Each team member demonstrated exceptional dedication, contributing [Chris: 10 hours and 15 minutes], [Ahmed: 9 hours and 45 minutes], and [Kevin: 8 hours and 30 minutes] towards the project, showcasing our commitment to its success. We came up with unique implementations to meet the project requirements and delivered a polished final product that demonstrates our proficiency in effective use of data structures.
+
+
