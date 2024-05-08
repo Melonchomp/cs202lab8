@@ -28,3 +28,11 @@ Chris - I implemented the skeleton of the game, as well as the makefile to execu
 fills the unordered_map that we use of words from the text files depending on what difficulty the user entered. The difficulty is set with setDifficulty where
 I fill the map and set the corresponding number of attempts allowed. I also made helper functions called chooseCat and chooseWord.
 chooseCat will choose a category from the map, and after choosing the category chooseWord will choose a word within it. 
+
+Ahmed - I Initially set up the github repositroy with Chris so we could have a central place to work on code. Coding wise, I handled the main gameplay loop of running through 
+the game continuously until the user decides to stop playing. I used a switch case to take input of what the user wanted to do. Once the player chooses a difficulty, a random word is chosen from
+the difficulty and a string of same length but only underscores is created. This underscore string acts as the string that will be used to hold the guess of the player. 
+
+Kevin - I set up more of the backend to check for certain conditions for this project. I made the checkWord function which takes the guessWord string and the next guessed letter to see if The
+guessed letter is a part of the actual word that the player is guessing. This code also checks for additional error cases such as typing the same letter twice. I also made the hint function
+which gives the player a chance to gain a letter into their guessWord string but at the cost of 1 life.

@@ -155,8 +155,7 @@ void Hangman::displayMan( int n ){
 
 /*
  Members:
-   Ahmed - 
-   Kevin - implemented check word and hints function and helped with the logic and writing of the gameplay loop
+   Ahmed, Kevin - implemented check word and hints function and helped with the logic and writing of the gameplay loop
    Chris - Implemented a boolean check to help with printing out the set of used characters. Helped with erros and logic of some code.
  Description: This is the main play function of our game. 
 */
@@ -197,7 +196,6 @@ void Hangman::startGame(){
                   wordGuess.push_back(' ');
                }
             }
-
 
             while(gameOver == false){
                //ends game if too many wrong attempts have been made
@@ -296,7 +294,7 @@ void Hangman::startGame(){
             printStats();
             return;
       }
-
+      //clears the guess for the next round
       wordGuess.clear();
    }
 }
@@ -319,8 +317,7 @@ int Hangman::menu(){
 
 /*
  Members:
-   Kevin - 
-   Chris - Implemnted the check for multiple occurences of a letter if it was given by hint, and added it to the used characters set
+   Kevin, Chris - Implemnted the check for multiple occurences of a letter if it was given by hint, and added it to the used characters set
  Description: If the user asks for a hint, this function will find the first '_' and replace it with the letter and also take away an attempt from the user.
 */
 void Hangman::hints(string &hiddenWord, int &numHints, set<char> &usedChars){
@@ -351,7 +348,7 @@ void Hangman::hints(string &hiddenWord, int &numHints, set<char> &usedChars){
 
 /*
  Member: Ahmed
- Description: 
+ Description: Prints the stats of the current session
 */
 void Hangman::printStats(){
 
@@ -365,7 +362,7 @@ void Hangman::printStats(){
 
 /*
  Member: Kevin
- Description: 
+ Description: Checks the word to see if the letter they guessed is correct, makes sure the letter hasnt been guessed already
 */
 void Hangman::checkWord(string &guessedWord, char guess, set<char> &usedChars){
 
