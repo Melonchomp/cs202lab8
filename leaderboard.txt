@@ -1,0 +1,2 @@
+Username            Points    Games Won Games Lost     Perfect Games  Hints Used
+crillo              0         0         0              0              0         

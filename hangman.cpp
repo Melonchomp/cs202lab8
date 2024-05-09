@@ -5,6 +5,7 @@
 #include <set> 
 #include <algorithm>
 #include <cctype>
+#include <iomanip>
 
 using namespace std;
 
@@ -166,15 +167,17 @@ void Hangman::startGame(){
    string guess;
    bool gameOver;
    int numHints = 1, option;
-   string difficulty, category, wordGuess;
+   string difficulty, category, wordGuess, answer;
    //Menu call
+   set< char > usedLetters;
+   set< char >::iterator sit;
 
-   while(option != 4){
+   login();
+
+   while(option != 5){
 
       gameOver = false;
       option = menu();
-      set< char > usedLetters;
-      set< char >::iterator sit;
 
       switch(option){
          case 1: 
@@ -227,9 +230,41 @@ void Hangman::startGame(){
                if(attempts == 0){
                   gamesLost++;
 
-                  cout << "You're out of attempts. The word was " << word << ". Better luck next time!" << endl;
-                  gameOver = true;
-                  numHints = 1;
+                  cout << "You're out of attempts. The word was " << word << "." << endl;
+                  do{
+                     cout << "Start Over(Y/N): ";
+                     cin >> answer;
+                     transform( answer.begin(), answer.end(), answer.begin(), ::toupper );
+                  }
+                  while( answer != "Y" && answer != "N" );
+
+                  if( answer == "Y" ){
+                     setDifficulty(difficulty);
+                     gamesLost = 0;
+                     gamesWon = 0;
+                     perfectGames = 0;
+                     points = 0;
+                     hintsUsed = 0;
+                     numHints = 1;
+                     usedLetters.clear();
+                     wordGuess.clear();
+                     category = chooseCat();
+                     word = chooseWord(category);
+
+                     //this for loop makes the string that holds the guesses the same size as the actually word string, including spaces
+                     for(int i = 0; i < word.size(); i++){
+                        if(word[i] != ' '){
+                           wordGuess.push_back('_');
+                        }else{
+                           wordGuess.push_back(' ');
+                        }
+                     }
+                  }
+                  else if( answer == "N" ){
+                     gameOver = true;
+                     numHints = 1;
+                     usedLetters.clear();
+                  }
                   break;
                } 
 
@@ -268,12 +303,33 @@ void Hangman::startGame(){
                checkWord(wordGuess, guess[0], usedLetters);
                //this checks for if the player has won the hangman game
                if(wordGuess == word){
-                  gamesWon++;
-                  points += attempts;
-                  cout << "\nCongratulations, you guessed the word " << word << " with " << attempts << " remaining. Give yourself a pat on the back!\n\n";
-                  gameOver == true;
+                  player.gamesWon++;
+                  player.points += attempts;
                   numHints = 1;
-                  break;
+                  cout << "Solved " << wordGuess << "!" << endl;
+                  do{
+                     cout << "Next Puzzle(Y/N): ";
+                     cin >> answer;
+                     transform( answer.begin(), answer.end(), answer.begin(), ::toupper );
+                  }
+                  while( answer != "Y" && answer != "N" );
+                  if( answer == "Y" ){
+                     setDifficulty(difficulty);
+                     usedLetters.clear();
+                     wordGuess.clear();
+                     category = chooseCat();
+                     word = chooseWord(category);
+
+                     //this for loop makes the string that holds the guesses the same size as the actually word string, including spaces
+                     for(int i = 0; i < word.size(); i++){
+                        if(word[i] != ' '){
+                           wordGuess.push_back('_');
+                        }else{
+                           wordGuess.push_back(' ');
+                        }
+                     }
+                  }
+                  else if( answer == "N" ){ break; }
                }
             }
 
@@ -289,9 +345,13 @@ void Hangman::startGame(){
             " Players take turns selecting letters to narrow the word down. Players can take turns or work together. "
             " Gameplay continues until the players guess the word or they run out of guesses and the stick figure is hung.\n\n"; 
             break;
-         case 4: 
+         case 4:
+            leaderboard.display();
+            break;
+         case 5: 
             cout << "\nThank You For Playing!" << endl << "Here are your session stats:\n\n";
             printStats();
+            leaderboard.saveToFile( "leaderboard.txt" );
             return;
       }
       //clears the guess for the next round
@@ -307,10 +367,10 @@ int Hangman::menu(){
    string choice;
    
    do{
-      cout << "1 | Play Game \n2 | Session Stats \n3 | Game Tutorial \n4 | Quit \nYour Pick: ";
+      cout << "1 | Play Game \n2 | Session Stats \n3 | Game Tutorial \n4 | Leaderboard \n5 | Quit \nYour Pick: ";
       cin >> choice;
    }
-   while( choice != "1" && choice != "2" && choice != "3" && choice != "4" && choice.size() != 1 );
+   while( choice != "1" && choice != "2" && choice != "3" && choice != "4" && choice != "5" && choice.size() != 1 );
 
    return stoi(choice);
 }
@@ -339,7 +399,7 @@ void Hangman::hints(string &hiddenWord, int &numHints, set<char> &usedChars){
       usedChars.insert(word[position]);
       attempts--;
       numHints--;
-      hintsUsed++;
+      player.hintsUsed++;
       return;
    } 
  
@@ -352,10 +412,10 @@ void Hangman::hints(string &hiddenWord, int &numHints, set<char> &usedChars){
 */
 void Hangman::printStats(){
 
-   cout << "Number of games won: " << gamesWon << endl;
-   cout << "Number of games lost: " << gamesLost << endl;
-   cout << "Number of hints used: " << hintsUsed << endl;
-   cout << "Total points(remaining attempts throughout the session): " << points << endl;
+   cout << "Number of games won: " << player.gamesWon << endl;
+   cout << "Number of games lost: " << player.gamesLost << endl;
+   cout << "Number of hints used: " << player.hintsUsed << endl;
+   cout << "Total points(remaining attempts throughout the session): " << player.points << endl;
    
    return;
 }
@@ -388,4 +448,129 @@ void Hangman::checkWord(string &guessedWord, char guess, set<char> &usedChars){
    }
 
    return; 
+}
+
+void Hangman::login(){
+
+   string response, username;
+   do{
+      cout << "New user(Y/N): ";
+      cin >> response;
+
+      transform( response.begin(), response.end(), response.begin(), ::toupper );
+   }
+   while( response != "Y" && response != "N" );
+
+   if( response == "Y" ){
+      cout << "Please enter a username: ";
+      cin >> username;
+      bool usernameExists = false;
+      for( size_t i = 0; i < leaderboard.players.size(); i++ ){
+         if( leaderboard.players[i].username == username ){
+            usernameExists = true;
+            break;
+         }
+      }
+      if( usernameExists ){
+         cout << "Username already exists. Please choose a different username." << endl;
+         login();
+      }
+      else{
+         player.createPlayer( username );
+         leaderboard.addPlayer( player );
+      }
+   }
+   else{
+      cout << "Please Login\nUsername: ";
+      cin >> username;
+
+      bool usernameFound = false;
+      for( size_t i = 0; i < leaderboard.players.size(); i++ ){
+         if( leaderboard.players[i].username == username ){
+            usernameFound = true;
+            player = leaderboard.players[i];
+            break;
+         }
+      }
+      if( !usernameFound ){
+         cout << "Username not found. Please create a new user." << endl;
+         login();
+      }
+      
+   }
+ 
+
+
+}
+
+void Player::createPlayer( string name ){
+
+   username = name;
+   gamesLost = gamesWon = perfectGames = hintsUsed = points = 0;
+
+}
+
+void Leaderboard::addPlayer( const Player& player ){
+
+   players.push_back( player );
+
+}
+
+void Leaderboard::display(){
+   sort( players.begin(), players.end(), [](Player& a, Player& b){
+      return a.points > b.points;
+   });
+
+   cout << "Leaderboard" << endl;
+   for( size_t i = 0; i < players.size(); i++ ){
+      cout << players[i].username << setw(10) << players[i].points << endl << endl;
+   }
+}
+
+void Leaderboard::saveToFile( const string & filename ) const{
+
+   ofstream outputFile( filename );
+
+   if( outputFile.fail() ){
+      cerr << "Error opening file!" << endl;
+      return;
+   }
+    // Write header with aligned columns
+    outputFile << left << setw(20) << "Username"
+               << setw(10) << "Points"
+               << setw(10) << "Games Won"
+               << setw(15) << "Games Lost"
+               << setw(15) << "Perfect Games"
+               << setw(10) << "Hints Used" << std::endl;
+
+    // Write each player's data to the file with aligned columns
+    for ( size_t i = 0; i < players.size(); i++ ) {
+        outputFile << left << setw(20) << players[i].username
+                   << setw(10) << players[i].points
+                   << setw(10) << players[i].gamesWon
+                   << setw(15) << players[i].gamesLost
+                   << setw(15) << players[i].perfectGames
+                   << setw(10) << players[i].hintsUsed << endl;
+    }
+
+    outputFile.close();
+
+}
+
+void Leaderboard::readFromFile( const string& filename ) const{
+
+   ifstream in(filename);
+
+   if( in.fail() ){
+      cerr << "Failed to open file!" << endl;
+      return;
+   }
+
+   in.close();
+}
+
+istream& operator>> ( istream& in, Player& player ){
+
+   in >> player.username >> player.points >> player.gamesWon >> player.gamesLost >> player.perfectGames >> player.hintsUsed;
+
 }

@@ -4,8 +4,6 @@
 
 */
 
-
-
 #ifndef HANGMAN_H
 #define HANGMAN_H
 
@@ -17,8 +15,37 @@
 
 using namespace std;
 
+struct Player{
+
+   void createPlayer( string name );
+
+   friend istream& operator>> ( istream& in, Player& player );
+
+   string username;
+   int gamesWon; 
+   int gamesLost;
+   int points; // depends on how many attempts they had left
+   int hintsUsed; // the number of hints used in the session
+   int perfectGames; // games won without getting any wrong
+};
+
+class Leaderboard{
+   public:
+      friend class Hangman;
+
+      void addPlayer( const Player& player );
+      void display();
+      void readFromFile( const string& filename ) const;
+      void saveToFile( const string& filename ) const;
+   private:
+      vector<Player> players;
+};
+
+
 class Hangman{
    public:
+      friend class Leaderboard;
+
       Hangman(); // defualt constructor - A
       void displayMan( int n ); // prints out the man dying
       void startGame(); // prints out user interface - A, K, C
@@ -30,6 +57,7 @@ class Hangman{
       string chooseCat(); // will choose one of the categories - C
       string chooseWord( string c ); // this will choose a word from the word bank based on the category - C
       void setDifficulty( string d ); // Depending on difficulty entered will fill word bank with corresponding words and set the corresponding attempts - C
+      void login();
 
    private:
 
@@ -45,6 +73,8 @@ class Hangman{
       int perfectGames; // games won without getting any wrong
       string difficulty; // used to keep track of the current difficulty of the game
       bool hasUnusedLetters;
+      Leaderboard leaderboard;
+      Player player;
 };
 
 #endif
